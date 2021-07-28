@@ -6,4 +6,6 @@ public interface BaseService<T>{
     List<T> getAll();
     T get(Long id);
     void delete(Long id);
+    boolean existsById(Long id);
+    T save(T model);
 }
