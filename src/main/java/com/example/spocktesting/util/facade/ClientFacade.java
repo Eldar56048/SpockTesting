@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClientFacade {
+
     public static ClientDtoResponse modelToDtoResponse(Client model) {
         ClientDtoResponse dto = new ClientDtoResponse();
         if (model.getId() != null)

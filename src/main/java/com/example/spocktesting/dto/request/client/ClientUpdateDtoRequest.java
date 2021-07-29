@@ -1,6 +1,8 @@
 package com.example.spocktesting.dto.request.client;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -9,6 +11,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientUpdateDtoRequest {
     @NotNull(message = "Поле id обязательно")
     @Positive(message = "id не может быть негативным числом")

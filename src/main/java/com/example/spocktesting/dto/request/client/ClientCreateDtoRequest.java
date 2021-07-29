@@ -1,6 +1,8 @@
 package com.example.spocktesting.dto.request.client;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -9,6 +11,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ClientCreateDtoRequest {
     @NotBlank(message = "Полe Имя обязательно.")
     @Length(message = "Длина Имени должна быть больше нуля", min = 1)
