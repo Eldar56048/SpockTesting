@@ -13,11 +13,12 @@ class ClientFacadeTest extends Specification{
 
     def "when we send Client object then method modelToDtoResponse return ClientDtoResponse object" () {
         given:
-            Client model = new Client(1, "Eldar", "Sairambay", "87013406863", new Discount(1, "100 Discount", 100))
-        and:
-            ClientDtoResponse expected = new ClientDtoResponse(1, "Eldar", "Sairambay", "87013406863", new DiscountDtoResponse(1, "100 Discount", 100))
+            def model = new Client(1, "Eldar", "Sairambay", "87013406863", new Discount(1, "100 Discount", 100))
+            def expected = new ClientDtoResponse(1, "Eldar", "Sairambay", "87013406863", new DiscountDtoResponse(1, "100 Discount", 100))
+
         when:
             ClientDtoResponse actual = ClientFacade.modelToDtoResponse(model)
+
         then:
             expected == actual
     }
@@ -25,21 +26,23 @@ class ClientFacadeTest extends Specification{
     def "when we send List of Client objects then method modelListToDtoResponseList return ClientDtoResponse List"() {
         given:
             def clients = createListOfClient()
-        and:
             def expected = createListOfClientDtoResponse()
+
         when:
             def actual = ClientFacade.modelListToDtoResponseList(clients)
+
         then:
-        expected == actual
+            expected == actual
     }
 
     def "when we send ClientCreateDtoRequest object then method createDtoRequestToModel return Client object"() {
         given:
             def dto = new ClientCreateDtoRequest("Eldar", "Sairambay", "87013406863", 1)
-        and:
             def expected = new Client("Eldar", "Sairambay", "87013406863", null)
+
         when:
             def actual = ClientFacade.createDtoRequestToModel(dto)
+
         then:
             expected == actual
     }
@@ -47,14 +50,13 @@ class ClientFacadeTest extends Specification{
     def "when we send ClientUpdateDtoRequest object and Client then method updateDtoRequestToModel return Client Object"() {
         given:
             def discount = new Discount(1, "100 Discount", 100)
-        and:
             def client = new Client(1, "Eldar", "Sairambay", "87013406863", discount)
-        and:
             def updateDto = new ClientUpdateDtoRequest(1, "IBNSINA", "Sairambay", "87018406823", 1)
-        and:
             def expected = new Client(1, "IBNSINA", "Sairambay", "87018406823", discount)
+
         when:
             def actual = ClientFacade.updateDtoRequestToModel(client, updateDto)
+
         then:
             expected == actual
     }
