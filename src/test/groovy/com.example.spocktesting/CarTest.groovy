@@ -21,8 +21,6 @@ class CarTest extends Specification {
             def result = myCar.needsFuel()
         then:
             result
-        and:
-            1 * myCar.needsFuel()
     }
 
     def "method needs fuel throw RuntimeException"() {

@@ -2,6 +2,7 @@ package com.example.spocktesting.api.service
 
 import com.example.spocktesting.dto.request.discount.DiscountCreateDtoRequest
 import com.example.spocktesting.dto.request.discount.DiscountUpdateDtoRequest
+import com.example.spocktesting.exception.domain.DtoException
 import com.example.spocktesting.model.Discount
 import com.example.spocktesting.repository.DiscountRepository
 import com.example.spocktesting.service.implementation.DiscountServiceImpl
@@ -47,6 +48,32 @@ class DiscountServiceImplTest extends Specification{
             actual.percentage == createDto.percentage
     }
 
+    def "when create discount method should throw DtoException because method existByDiscountName return true"() {
+        given:
+            def createDto = new DiscountCreateDtoRequest("VIP", 50)
+        and:
+            repository.existsByDiscountName(createDto.discountName) >> true
+
+        when:
+            service.create(createDto)
+
+        then:
+            thrown(DtoException)
+    }
+
+    def "when create discount method should throw DtoException because method existByPercentage return true"() {
+        given:
+            def createDto = new DiscountCreateDtoRequest("VIP", 50)
+        and:
+            repository.existsByPercentage(createDto.percentage) >> true
+
+        when:
+            service.create(createDto)
+
+        then:
+            thrown(DtoException)
+    }
+
     def "update Discount method test"() {
         given:
             def updateDto = new DiscountUpdateDtoRequest(1, "VIP NEW", 60)
@@ -62,7 +89,33 @@ class DiscountServiceImplTest extends Specification{
             expected == actual
     }
 
-    def "get Discount method test"() {
+    def "when update discount method should throw DtoException because method existByDiscountNameAndIdNotLike return true"() {
+        given:
+            def updateDto = new DiscountUpdateDtoRequest(1, "VIP NEW", 60)
+        and:
+            repository.existsByDiscountNameAndIdNotLike(updateDto.discountName, updateDto.id) >> true
+
+        when:
+            service.update(updateDto)
+
+        then:
+            thrown(DtoException)
+    }
+
+    def "when update discount method should throw DtoException because method existByPercentageAndIdNotLike return true"() {
+        given:
+            def updateDto = new DiscountUpdateDtoRequest(1, "VIP NEW", 60)
+        and:
+            repository.existsByPercentageAndIdNotLike(updateDto.percentage, updateDto.id) >> true
+
+        when:
+            service.update(updateDto)
+
+        then:
+            thrown(DtoException)
+    }
+
+        def "get Discount method test"() {
         given:
             def id = 1
             def expected = new Discount(1, "VIP", 50)
