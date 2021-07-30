@@ -212,7 +212,7 @@ class DiscountServiceImplTest extends Specification{
             actual
     }
 
-        def "existsByDiscountNameAndIdNotLike method test verify the call repository method"() {
+    def "existsByDiscountNameAndIdNotLike method test verify the call repository method"() {
         given:
             def id = 1
             def discountName = "VIP"

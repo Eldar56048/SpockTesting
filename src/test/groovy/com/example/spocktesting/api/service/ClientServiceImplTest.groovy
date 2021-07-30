@@ -89,7 +89,7 @@ class ClientServiceImplTest extends Specification {
             1 * repository.existsById(id)
     }
 
-    def "save Client method test"() {
+    def "save client method test verify the call repository method"() {
         given:
             def client = new Client(1, "Eldar", "Sairambay", "87013406863", new Discount(1, "VIP", 50))
 
@@ -112,6 +112,31 @@ class ClientServiceImplTest extends Specification {
 
         then:
             expected == actual
+    }
+
+    def "existsById method test verify the call repository method"() {
+        given:
+            def id = 1
+
+        when:
+            service.existsById(id)
+
+        then:
+            1 * repository.existsById(id)
+
+    }
+
+    def "existsById method should return repositories returned value"() {
+        given:
+            def id = 1
+        and:
+            repository.existsById(id) >> true
+
+        when:
+            def actual = service.existsById(id)
+
+        then:
+            actual
     }
 
     def createListOfClient() {
