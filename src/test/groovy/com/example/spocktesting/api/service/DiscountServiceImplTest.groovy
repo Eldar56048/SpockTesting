@@ -87,7 +87,7 @@ class DiscountServiceImplTest extends Specification{
             1 * repository.deleteById(id)
     }
 
-    def "existsById method test"() {
+    def "existById method should return repositories returned value"() {
         given:
             def id = 1
         and:
@@ -100,7 +100,143 @@ class DiscountServiceImplTest extends Specification{
             actual
     }
 
-    def createListOfDiscount() {
+    def "existById method test verify the call repository method"() {
+        given:
+            def id = 1
+
+        when:
+            service.existsById(id)
+
+        then:
+            1 * repository.existsById(id)
+    }
+
+    def "save discount method test verify the call repository method"() {
+        given:
+            def discount = new Discount(1, "VIP", 50)
+
+        when:
+            service.save(discount)
+
+        then:
+            1 * repository.save(discount)
+    }
+
+    def "save method should return repositories returned value"() {
+        given:
+            def discount = new Discount(1, "VIP", 50)
+        and:
+            repository.save(discount) >> {Discount model -> model}
+
+        when:
+            def actual = service.save(discount)
+
+        then:
+            discount == actual
+    }
+
+    def "existsByDiscountName method test verify the call repository method"() {
+        given:
+            def discountName = "VIP"
+
+        when:
+            service.existsByDiscountName(discountName)
+
+        then:
+            1 * repository.existsByDiscountName(discountName)
+    }
+
+    def "existsByDiscountName method should return repositories returned value"() {
+        given:
+            def discountName = "VIP"
+        and:
+            repository.existsByDiscountName(discountName) >> true
+
+        when:
+            def actual = service.existsByDiscountName(discountName)
+
+        then:
+            actual
+    }
+
+        def "existsByDiscountNameAndIdNotLike method test verify the call repository method"() {
+        given:
+            def id = 1
+            def discountName = "VIP"
+
+        when:
+            service.existsByDiscountNameAndIdNotLike(discountName, id)
+
+        then:
+            1 * repository.existsByDiscountNameAndIdNotLike(discountName, id)
+    }
+
+    def "existsByDiscountNameAndIdNotLike method should return repositories returned value"() {
+        given:
+            def id = 1
+            def discountName = "VIP"
+        and:
+            repository.existsByDiscountNameAndIdNotLike(discountName, id) >> true
+
+        when:
+            def actual = service.existsByDiscountNameAndIdNotLike(discountName, id)
+
+        then:
+            actual
+    }
+
+    def "existsByPercentage method test verify the call repository method"() {
+        given:
+            def percentage = 50
+
+        when:
+            service.existsByPercentage(percentage)
+
+        then:
+            1 * repository.existsByPercentage(percentage)
+    }
+
+    def "existsByPercentage method should return repositories returned value"() {
+        given:
+            def percentage = 50
+        and:
+            repository.existsByPercentage(percentage) >> true
+
+        when:
+            def actual = service.existsByPercentage(percentage)
+
+        then:
+            actual
+    }
+
+
+    def "existsByPercentageAndIdNotLike method test verify the call repository method"() {
+        given:
+            def id = 1
+            def percentage = 50
+
+        when:
+            service.existsByPercentageAndIdNotLike(percentage, id)
+
+        then:
+            1 * repository.existsByPercentageAndIdNotLike(percentage, id)
+    }
+
+    def "existsByPercentageAndIdNotLike method should return repositories returned value"() {
+        given:
+            def id = 1
+            def percentage = 50
+        and:
+            repository.existsByPercentageAndIdNotLike(percentage, id) >> true
+
+        when:
+            def actual = service.existsByPercentageAndIdNotLike(percentage, id)
+
+        then:
+            actual
+    }
+
+        def createListOfDiscount() {
         def discounts = new ArrayList()
         discounts.add(new Discount(1, "VIP", 50))
         discounts.add(new Discount(2, "Standard", 0))

@@ -40,8 +40,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client update(ClientUpdateDtoRequest dto) {
         Client client = get(dto.getId());
-        if (client.getDiscount().getId().equals(dto.getDiscountId()))
-            client.setDiscount(discountService.get(dto.getDiscountId()));
+        client.setDiscount(discountService.get(dto.getDiscountId()));
         client = updateDtoRequestToModel(client, dto);
         return save(client);
     }
