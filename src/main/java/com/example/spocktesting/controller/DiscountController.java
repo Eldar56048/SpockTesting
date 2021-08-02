@@ -4,6 +4,7 @@ import com.example.spocktesting.dto.request.discount.DiscountCreateDtoRequest;
 import com.example.spocktesting.dto.request.discount.DiscountUpdateDtoRequest;
 import com.example.spocktesting.exception.domain.DtoException;
 import com.example.spocktesting.exception.domain.ResourceNotFoundException;
+import com.example.spocktesting.model.Discount;
 import com.example.spocktesting.service.implementation.DiscountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
