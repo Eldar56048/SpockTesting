@@ -60,8 +60,6 @@ class DiscountControllerTest extends Specification{
                     .contentType(MediaType.APPLICATION_JSON)
             )
 
-            println(response.andReturn().response.contentAsString)
-
         then:
             response
                     .andExpect(status().isOk())
