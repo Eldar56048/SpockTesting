@@ -1,5 +1,6 @@
 package com.example.spocktesting.api.controller
 
+import com.example.spocktesting.constant.ResponseCode
 import com.example.spocktesting.controller.DiscountController
 import com.example.spocktesting.dto.request.discount.DiscountCreateDtoRequest
 import com.example.spocktesting.dto.request.discount.DiscountUpdateDtoRequest
@@ -11,11 +12,12 @@ import com.example.spocktesting.service.implementation.DiscountServiceImpl
 import groovy.json.JsonOutput
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.http.ResponseEntity
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultMatcher
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import spock.lang.Specification
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
@@ -87,9 +89,9 @@ class DiscountControllerTest extends Specification{
         then:
             response
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath('$.id', is(discount.id)))
-                    .andExpect(jsonPath('$.discountName', is(discount.discountName)))
-                    .andExpect(jsonPath('$.percentage', is(discount.percentage)))
+                    .andExpect(jsonPath('$.id', is(discount.id)) as ResultMatcher)
+                    .andExpect(jsonPath('$.discountName', is(discount.discountName)) as ResultMatcher)
+                    .andExpect(jsonPath('$.percentage', is(discount.percentage)) as ResultMatcher)
                     .andReturn()
                     .response
                     .contentType == MediaType.APPLICATION_JSON.toString()
@@ -108,8 +110,8 @@ class DiscountControllerTest extends Specification{
             response
                     .andExpect(status().isNotFound())
                     .andExpect({ result -> result.getResolvedException() instanceof ResourceNotFoundException })
-                    .andExpect(jsonPath('$.status', is(HttpStatus.NOT_FOUND.value())))
-                    .andExpect(jsonPath('$.code', is(DISCOUNT_NOT_FOUND)))
+                    .andExpect(jsonPath('$.status', is(HttpStatus.NOT_FOUND.value())) as ResultMatcher)
+                    .andExpect(jsonPath('$.code', is(DISCOUNT_NOT_FOUND)) as ResultMatcher)
                     .andReturn()
                     .response
                     .contentType == MediaType.APPLICATION_JSON.toString()
@@ -120,6 +122,7 @@ class DiscountControllerTest extends Specification{
             def updateDto = new DiscountUpdateDtoRequest(1, "VIP1", 60)
             def discount = new Discount(1, "VIP1", 60)
         and:
+            discountService.existsById(updateDto.id) >>true
             discountService.update(updateDto) >> discount
 
         when:
@@ -133,15 +136,15 @@ class DiscountControllerTest extends Specification{
         then:
             response
                     .andExpect(status().isOk())
-                    .andExpect(jsonPath('$.id', is(updateDto.id)))
-                    .andExpect(jsonPath('$.discountName', is(updateDto.discountName)))
-                    .andExpect(jsonPath('$.percentage', is(updateDto.percentage)))
+                    .andExpect(jsonPath('$.id', is(updateDto.id)) as ResultMatcher)
+                    .andExpect(jsonPath('$.discountName', is(updateDto.discountName)) as ResultMatcher)
+                    .andExpect(jsonPath('$.percentage', is(updateDto.percentage)) as ResultMatcher)
                     .andReturn()
                     .response
                     .contentType == MediaType.APPLICATION_JSON.toString()
     }
 
-    def "when post '/api/v1/discounts/:id' performed then thrown DtoException because two another id and response has status 404 and content is JSON Exception"() {
+    def "when post '/api/v1/discounts/:id' performed then thrown DtoException because two another id and response has status 400 and content is JSON Exception"() {
         given:
             def updateDto = new DiscountUpdateDtoRequest(1, "VIP1", 60)
 
@@ -157,12 +160,50 @@ class DiscountControllerTest extends Specification{
             response
                     .andExpect(status().isBadRequest())
                     .andExpect({ result -> result.getResolvedException() instanceof DtoException })
-                    .andExpect(jsonPath('$.status', HttpStatus.BAD_REQUEST.value()))
-                    .andExpect(jsonPath('$.code', DISCOUNT_TWO_ANOTHER_ID))
+                    .andExpect(jsonPath('$.status', HttpStatus.BAD_REQUEST.value()) as ResultMatcher)
+                    .andExpect(jsonPath('$.code', DISCOUNT_TWO_ANOTHER_ID) as ResultMatcher)
                     .andReturn()
                     .response
                     .contentType == MediaType.APPLICATION_JSON.toString()
     }
+
+    def "when delete '/api/v1/discounts/:id' performed then discount deleted and response has status 200 and content is success message"() {
+        given:
+            def id = 1
+        and:
+            discountService.existsById(id) >> true
+
+        when:
+            def response = mvc.perform(delete("/api/v1/discounts/"+id))
+
+        then:
+            1 * discountService.delete(id)
+            response
+                    .andExpect(status().isOk())
+                    .andReturn()
+                    .response
+                    .contentAsString == DISCOUNT_SUCCESSFULLY_DELETED
+    }
+
+    def "when delete '/api/v1/discounts/:id' performed then thrown ResourceNotFoundException because discount with this id not found and response has status 404 and content is JSON Exception"() {
+        given:
+            def id = 1
+        and:
+            discountService.existsById(id) >> false
+        when:
+            def response = mvc.perform(delete("/api/v1/discounts/"+id))
+
+        then:
+            response
+                    .andExpect(status().isNotFound())
+                    .andExpect({ result -> result.getResolvedException() instanceof ResourceNotFoundException })
+                    .andExpect(jsonPath('$.status', HttpStatus.NOT_FOUND.value()) as ResultMatcher)
+                    .andExpect(jsonPath('$.code', DISCOUNT_NOT_FOUND) as ResultMatcher)
+                    .andReturn()
+                    .response
+                    .contentType == MediaType.APPLICATION_JSON.toString()
+    }
+
 
 
     def createListOfDiscount() {
