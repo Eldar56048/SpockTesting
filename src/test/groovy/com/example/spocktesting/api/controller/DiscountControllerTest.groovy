@@ -1,6 +1,5 @@
 package com.example.spocktesting.api.controller
 
-import com.example.spocktesting.constant.ResponseCode
 import com.example.spocktesting.controller.DiscountController
 import com.example.spocktesting.dto.request.discount.DiscountCreateDtoRequest
 import com.example.spocktesting.dto.request.discount.DiscountUpdateDtoRequest
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultMatcher
 import spock.lang.Specification
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath

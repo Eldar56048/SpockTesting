@@ -15,7 +15,7 @@ import static com.example.spocktesting.constant.ResponseCode.*;
 import static com.example.spocktesting.constant.ResponseCodeMessage.*;
 
 @RestController
-@RequestMapping("/clients")
+@RequestMapping("/api/v1/clients")
 public class ClientController {
 
     private final ClientServiceImpl clientService;
@@ -48,7 +48,7 @@ public class ClientController {
 
     @PostMapping("/{clientId}")
     public ResponseEntity<?> update(@PathVariable Long clientId, @Valid @RequestBody ClientUpdateDtoRequest dto) {
-        if (dto.getId()!=clientId)
+        if (!dto.getId().equals(clientId))
             throw new DtoException(CLIENT_TWO_ANOTHER_ID_MESSAGE, CLIENT_TWO_ANOTHER_ID);
         if (!clientService.existsById(clientId))
             throw new ResourceNotFoundException(CLIENT_NOT_FOUND_MESSAGE(clientId), CLIENT_NOT_FOUND);
