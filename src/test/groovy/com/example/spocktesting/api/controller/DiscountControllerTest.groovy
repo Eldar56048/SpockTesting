@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultMatcher
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
@@ -160,8 +159,8 @@ class DiscountControllerTest extends Specification{
             response
                     .andExpect(status().isBadRequest())
                     .andExpect({ result -> result.getResolvedException() instanceof DtoException })
-                    .andExpect(jsonPath('$.status', HttpStatus.BAD_REQUEST.value()) as ResultMatcher)
-                    .andExpect(jsonPath('$.code', DISCOUNT_TWO_ANOTHER_ID) as ResultMatcher)
+                    .andExpect(jsonPath('$.status', is(HttpStatus.BAD_REQUEST.value())) as ResultMatcher)
+                    .andExpect(jsonPath('$.code', is(DISCOUNT_TWO_ANOTHER_ID)) as ResultMatcher)
                     .andReturn()
                     .response
                     .contentType == MediaType.APPLICATION_JSON.toString()
@@ -197,8 +196,8 @@ class DiscountControllerTest extends Specification{
             response
                     .andExpect(status().isNotFound())
                     .andExpect({ result -> result.getResolvedException() instanceof ResourceNotFoundException })
-                    .andExpect(jsonPath('$.status', HttpStatus.NOT_FOUND.value()) as ResultMatcher)
-                    .andExpect(jsonPath('$.code', DISCOUNT_NOT_FOUND) as ResultMatcher)
+                    .andExpect(jsonPath('$.status', is(HttpStatus.NOT_FOUND.value())) as ResultMatcher)
+                    .andExpect(jsonPath('$.code', is(DISCOUNT_NOT_FOUND)) as ResultMatcher)
                     .andReturn()
                     .response
                     .contentType == MediaType.APPLICATION_JSON.toString()
