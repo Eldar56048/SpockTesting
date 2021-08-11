@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClientDtoResponse {
+    // Depending on the app, it may not be secure to expose client ids to the outside world. Remember that for future
     private Long id;
     private String name;
     private String surname;

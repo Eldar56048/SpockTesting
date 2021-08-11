@@ -202,6 +202,7 @@ class DiscountControllerTest extends Specification{
 
 
     def createListOfDiscount() {
+        // same here with groovy syntax
         def discounts = new ArrayList()
         discounts.add(new Discount(1, "VIP", 50))
         discounts.add(new Discount(2, "Standard", 0))

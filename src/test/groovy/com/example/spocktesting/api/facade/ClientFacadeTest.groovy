@@ -11,6 +11,8 @@ import spock.lang.Specification
 
 class ClientFacadeTest extends Specification{
 
+    // look up different conventions for naming test methods
+    // one of the forms could be "[ACTION] should [ACTION or THROW EXCEPTION] when [CONDITION]"
     def "when we send Client object then method modelToDtoResponse return ClientDtoResponse object" () {
         given:
             def model = new Client(1, "Eldar", "Sairambay", "87013406863", new Discount(1, "100 Discount", 100))

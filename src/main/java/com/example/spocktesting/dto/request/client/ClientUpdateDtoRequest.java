@@ -13,6 +13,7 @@ import javax.validation.constraints.Positive;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// Again russian error messages exposed to the user on UI
 public class ClientUpdateDtoRequest {
     @NotNull(message = "Поле id обязательно")
     @Positive(message = "id не может быть негативным числом")

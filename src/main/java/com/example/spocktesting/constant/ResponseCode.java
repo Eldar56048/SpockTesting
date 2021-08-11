@@ -1,5 +1,6 @@
 package com.example.spocktesting.constant;
 
+// This is utility class. Always try to prohibit instance creation for this kind of classes
 public class ResponseCode {
     public static final String DISCOUNT_EXISTS_BY_NAME = "discount/exists-by-name";
     public static final String DISCOUNT_EXISTS_BY_PERCENT = "discount/exists-by-percent";
