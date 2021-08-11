@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+// As a consequence: your services look a lot cleaner than controllers. Should be vice versa
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository repository;
@@ -34,6 +35,9 @@ public class ClientServiceImpl implements ClientService {
         Client client = createDtoRequestToModel(dto);
         Discount discount = discountService.get(dto.getDiscountId());
         client.setDiscount(discount);
+        // you are referring to save method here as if it was local method, however it's overriden method from interface which is not very useful
+        // you could easily inline repository.save(client) here
+        // create new methods only to make code more readable
         return save(client);
     }
 
@@ -42,6 +46,7 @@ public class ClientServiceImpl implements ClientService {
         Client client = get(dto.getId());
         client.setDiscount(discountService.get(dto.getDiscountId()));
         client = updateDtoRequestToModel(client, dto);
+        // same here about methods
         return save(client);
     }
 

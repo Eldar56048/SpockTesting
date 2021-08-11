@@ -8,6 +8,8 @@ import com.example.spocktesting.model.Discount;
 import java.util.ArrayList;
 import java.util.List;
 
+// what I've written earlier about static methods applies here as well
+// learn about mapper pattern, it seems more suitable for the purpose
 public class DiscountFacade {
 
     public static DiscountDtoResponse modelToDtoResponse(Discount model) {

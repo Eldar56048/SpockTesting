@@ -13,6 +13,7 @@ import javax.validation.constraints.Positive;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// Again russian error messages exposed to the user on UI
 public class ClientCreateDtoRequest {
     @NotBlank(message = "Полe Имя обязательно.")
     @Length(message = "Длина Имени должна быть больше нуля", min = 1)

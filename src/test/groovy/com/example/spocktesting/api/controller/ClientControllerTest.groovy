@@ -28,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
 
+// usually descriptions of your text should use business language without too much tecnical info
 class ClientControllerTest extends Specification{
 
     ClientServiceImpl clientService = Mock(ClientServiceImpl)
@@ -37,6 +38,7 @@ class ClientControllerTest extends Specification{
             .setControllerAdvice(new GlobalExceptionHandler())
             .build()
 
+    // use words for expressing intentions
     def "when get '/' performed then the response has status 200 and content is JSON array"() {
         given:
             clientService.getAll() >> createListOfClient()
@@ -156,6 +158,8 @@ class ClientControllerTest extends Specification{
 
 
     def createListOfClient() {
+        // groovy syntax is preferred
+        // look up how we create lists in Groovy
         def clients = new ArrayList()
         clients.add(new Client(1, "Eldar", "Sairambay", "87013406863", new Discount(1, "Standard", 0)))
         clients.add(new Client(2, "Baurzhan", "Mustapaev", "87027406803", new Discount(2, "VIP", 50)))

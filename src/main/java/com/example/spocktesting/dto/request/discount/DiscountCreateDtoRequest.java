@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+// Again russian error messages exposed to the user on UI
 public class DiscountCreateDtoRequest {
     @NotBlank(message = "Поле название скидки обязательно.")
     @Length(message = "Длина название скидки должна быть больше нуля", min = 1)

@@ -15,9 +15,11 @@ import static com.example.spocktesting.constant.ResponseCodeMessage.*;
 
 import javax.validation.Valid;
 
+// All the notes from ClientController apply here as well
 @RestController
 @RequestMapping("/api/v1/discounts")
 public class DiscountController {
+    // Again autowire by interface
     private final DiscountServiceImpl service;
 
     @Autowired
